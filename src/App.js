@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 function App() {
   var row = [];
-  for(let i = 0; i< 10; i++){
+  for(let i = 0; i< 15; i++){
     var col = [];
     for(let j=0; j< 10 ; j++){
       col.push(null)
@@ -29,7 +29,6 @@ function App() {
   const [board, setBoard] = useState(row)
   const handleChangeDirection = () =>{
     direction === "vertical"? setDirection("horizontal"):setDirection("vertical");
-    
   }
   const handlePlaceCarrier = () =>{
     if(!placeShips.carrier){
@@ -79,139 +78,256 @@ function App() {
       for(let j=0; j< 10 ; j++){
         const handleHover = () =>{
           if(board[i][j] === null || board[i][j] === "hovering" || board[i][j] === "out"){
-            
-            if(placeShips.carrier){
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                if(j>5){
-                  newBoardRow[j] = "out";
-                  newBoardRow[j+1] = "out";
-                  newBoardRow[j+2] = "out";
-                  newBoardRow[j+3] = "out";
-                }else{
+            if(direction === "horizontal"){
+              if(placeShips.carrier){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  if(j>5){
+                    newBoardRow[j] = "out";
+                    newBoardRow[j+1] = "out";
+                    newBoardRow[j+2] = "out";
+                    newBoardRow[j+3] = "out";
+                  }else{
+                    newBoardRow[j] = "hovering";
+                    newBoardRow[j+1] = "hovering";
+                    newBoardRow[j+2] = "hovering";
+                    newBoardRow[j+3] = "hovering";
+                    newBoardRow[j+4] = "hovering";
+                  }
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.battleship){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  if(j>6){
+                    newBoardRow[j] = "out";
+                    newBoardRow[j+1] = "out";
+                    newBoardRow[j+2] = "out";
+                  }else{
+                    newBoardRow[j] = "hovering";
+                    newBoardRow[j+1] = "hovering";
+                    newBoardRow[j+2] = "hovering";
+                    newBoardRow[j+3] = "hovering";
+                  }
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.cruiser){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  if(j>7){
+                    newBoardRow[j] = "out";
+                    newBoardRow[j+1] = "out";
+                  }else{
+                    newBoardRow[j] = "hovering";
+                    newBoardRow[j+1] = "hovering";
+                    newBoardRow[j+2] = "hovering";
+                  }
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.destroyer){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  if(j>8){
+                    newBoardRow[j] = "out";
+                  }else{
+                    newBoardRow[j] = "hovering";
+                    newBoardRow[j+1] = "hovering";
+                  }
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else{
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
                   newBoardRow[j] = "hovering";
-                  newBoardRow[j+1] = "hovering";
-                  newBoardRow[j+2] = "hovering";
-                  newBoardRow[j+3] = "hovering";
-                  newBoardRow[j+4] = "hovering";
-                }
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
-            }else if(placeShips.battleship){
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                if(j>6){
-                  newBoardRow[j] = "out";
-                  newBoardRow[j+1] = "out";
-                  newBoardRow[j+2] = "out";
-                }else{
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }
+            }else if(direction === "vertical"){
+              if(placeShips.carrier){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  if(i>5){
+                    newBoard[i][j] = "out";
+                    newBoard[i+1][j] = "out";
+                    newBoard[i+2][j] = "out";
+                    newBoard[i+3][j] = "out";
+                  }else{
+                    newBoard[i][j] = "hovering";
+                    newBoard[i+1][j] = "hovering";
+                    newBoard[i+2][j] = "hovering";
+                    newBoard[i+3][j] = "hovering";
+                    newBoard[i+4][j] = "hovering";
+                  }
+                  // newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.battleship){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  if(i>6){
+                    newBoard[i][j] = "out";
+                    newBoard[i+1][j] = "out";
+                    newBoard[i+2][j] = "out";
+                  }else{
+                    newBoard[i][j] = "hovering";
+                    newBoard[i+1][j] = "hovering";
+                    newBoard[i+2][j] = "hovering";
+                    newBoard[i+3][j] = "hovering";
+                  }
+                  // newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.cruiser){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  if(i>7){
+                    newBoard[i][j] = "out";
+                    newBoard[i+1][j] = "out";
+                  }else{
+                    newBoard[i][j] = "hovering";
+                    newBoard[i+1][j] = "hovering";
+                    newBoard[i+2][j] = "hovering";
+                  }
+                  // newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.destroyer){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  if(i>8){
+                    newBoard[i][j] = "out";
+                  }else{
+                    newBoard[i][j] = "hovering";
+                    newBoard[i+1][j] = "hovering";
+                  }
+                  // newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else{
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
                   newBoardRow[j] = "hovering";
-                  newBoardRow[j+1] = "hovering";
-                  newBoardRow[j+2] = "hovering";
-                  newBoardRow[j+3] = "hovering";
-                }
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
-            }else if(placeShips.cruiser){
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                if(j>7){
-                  newBoardRow[j] = "out";
-                  newBoardRow[j+1] = "out";
-                }else{
-                  newBoardRow[j] = "hovering";
-                  newBoardRow[j+1] = "hovering";
-                  newBoardRow[j+2] = "hovering";
-                }
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
-            }else if(placeShips.destroyer){
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                if(j>8){
-                  newBoardRow[j] = "out";
-                }else{
-                  newBoardRow[j] = "hovering";
-                  newBoardRow[j+1] = "hovering";
-                }
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }
             }
-            else{
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = "hovering";
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
-            }
-            
           }
           
         }
         const handleHoverLeft = () => {
           if(board[i][j] === "hovering" || board[i][j] === "out"){
-            if(placeShips.carrier){
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = null;
-                newBoardRow[j+1] = null;
-                newBoardRow[j+2] = null;
-                newBoardRow[j+3] = null;
-                newBoardRow[j+4] = null;
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
-            }else if(placeShips.battleship){
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = null;
-                newBoardRow[j+1] = null;
-                newBoardRow[j+2] = null;
-                newBoardRow[j+3] = null;
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
-            }else if(placeShips.cruiser){
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = null;
-                newBoardRow[j+1] = null;
-                newBoardRow[j+2] = null;
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
-            }else if(placeShips.destroyer){
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = null;
-                newBoardRow[j+1] = null;
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
+            if(direction === "horizontal"){
+              if(placeShips.carrier){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = null;
+                  newBoardRow[j+1] = null;
+                  newBoardRow[j+2] = null;
+                  newBoardRow[j+3] = null;
+                  newBoardRow[j+4] = null;
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.battleship){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = null;
+                  newBoardRow[j+1] = null;
+                  newBoardRow[j+2] = null;
+                  newBoardRow[j+3] = null;
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.cruiser){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = null;
+                  newBoardRow[j+1] = null;
+                  newBoardRow[j+2] = null;
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }else if(placeShips.destroyer){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = null;
+                  newBoardRow[j+1] = null;
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }
+              else{
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = null;
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }
+            }else if(direction === "vertical"){
+              if(placeShips.carrier){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  newBoard[i][j] = null;
+                  newBoard[i+1][j] = null;
+                  newBoard[i+2][j] = null;
+                  newBoard[i+3][j] = null;
+                  newBoard[i+4][j] = null;
+                  return newBoard;
+                })
+              }else if(placeShips.battleship){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  newBoard[i][j] = null;
+                  newBoard[i+1][j] = null;
+                  newBoard[i+2][j] = null;
+                  newBoard[i+3][j] = null;
+                  return newBoard;
+                })
+              }else if(placeShips.cruiser){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  newBoard[i][j] = null;
+                  newBoard[i+1][j] = null;
+                  newBoard[i+2][j] = null;
+                  return newBoard;
+                })
+              }else if(placeShips.destroyer){
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  newBoard[i][j] = null;
+                  newBoard[i+1][j] = null;
+                  return newBoard;
+                })
+              }
+              else{
+                setBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = null;
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })
+              }
             }
-            else{
-              setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = null;
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })
-            }
+            
           }
           
         }
@@ -265,10 +381,6 @@ function App() {
         <div style = {{  marginLeft : "20vw"}}>
           <div>opponents board</div>
           <div>{renderOpponentsGrid()}</div> 
-          <div> carrier </div>
-          <div> battleship </div>
-          <div> cruiser </div>
-          <div> destroyer </div>
         </div>
         
       </div>
