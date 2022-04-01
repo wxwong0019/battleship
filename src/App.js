@@ -31,8 +31,8 @@ function App() {
     direction === "vertical"? setDirection("horizontal"):setDirection("vertical");
   }
   const handlePlaceCarrier = () =>{
-    if(!placeShips.carrier){
-      setPlaceShips({
+    if(!pickShip.carrier){
+      setPickShip({
         carrier:true,
         battleship:false,
         cruiser:false,
@@ -42,8 +42,8 @@ function App() {
     
   }
   const handlePlaceBattleship = () =>{
-    if(!placeShips.battleship){
-      setPlaceShips({
+    if(!pickShip.battleship){
+      setPickShip({
       carrier:false,
       battleship:true,
       cruiser:false,
@@ -52,8 +52,8 @@ function App() {
   }
 }
   const handlePlaceCruiser = () =>{
-    if(!placeShips.cruiser){
-      setPlaceShips({
+    if(!pickShip.cruiser){
+      setPickShip({
       carrier:false,
       battleship:false,
       cruiser:true,
@@ -62,8 +62,8 @@ function App() {
   }
 }
   const handlePlaceDestroyer = () =>{
-    if(!placeShips.destroyer){
-      setPlaceShips({
+    if(!pickShip.destroyer){
+      setPickShip({
       carrier:false,
       battleship:false,
       cruiser:false,
@@ -77,9 +77,9 @@ function App() {
       var colArray = [];
       for(let j=0; j< 10 ; j++){
         const handleHover = () =>{
-          if(board[i][j] === null || board[i][j] === "hovering" || board[i][j] === "out"){
+          if(board[i][j] === null || board[i][j] === "hovering" || board[i][j] === "out" || board[i][j] === 'carrier'||board[i][j] === 'battleship'||board[i][j] === 'cruiser'||board[i][j] === 'destroyer'){
             if(direction === "horizontal"){
-              if(placeShips.carrier){
+              if(pickShip.carrier){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
@@ -89,16 +89,16 @@ function App() {
                     newBoardRow[j+2] = "out";
                     newBoardRow[j+3] = "out";
                   }else{
-                    newBoardRow[j] = "hovering";
-                    newBoardRow[j+1] = "hovering";
-                    newBoardRow[j+2] = "hovering";
-                    newBoardRow[j+3] = "hovering";
-                    newBoardRow[j+4] = "hovering";
+                    newBoardRow[j] = "carrier";
+                    newBoardRow[j+1] = "carrier";
+                    newBoardRow[j+2] = "carrier";
+                    newBoardRow[j+3] = "carrier";
+                    newBoardRow[j+4] = "carrier";
                   }
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
-              }else if(placeShips.battleship){
+              }else if(pickShip.battleship){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
@@ -107,15 +107,15 @@ function App() {
                     newBoardRow[j+1] = "out";
                     newBoardRow[j+2] = "out";
                   }else{
-                    newBoardRow[j] = "hovering";
-                    newBoardRow[j+1] = "hovering";
-                    newBoardRow[j+2] = "hovering";
-                    newBoardRow[j+3] = "hovering";
+                    newBoardRow[j] = "battleship";
+                    newBoardRow[j+1] = "battleship";
+                    newBoardRow[j+2] = "battleship";
+                    newBoardRow[j+3] = "battleship";
                   }
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
-              }else if(placeShips.cruiser){
+              }else if(pickShip.cruiser){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
@@ -123,22 +123,22 @@ function App() {
                     newBoardRow[j] = "out";
                     newBoardRow[j+1] = "out";
                   }else{
-                    newBoardRow[j] = "hovering";
-                    newBoardRow[j+1] = "hovering";
-                    newBoardRow[j+2] = "hovering";
+                    newBoardRow[j] = "cruiser";
+                    newBoardRow[j+1] = "cruiser";
+                    newBoardRow[j+2] = "cruiser";
                   }
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
-              }else if(placeShips.destroyer){
+              }else if(pickShip.destroyer){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
                   if(j>8){
                     newBoardRow[j] = "out";
                   }else{
-                    newBoardRow[j] = "hovering";
-                    newBoardRow[j+1] = "hovering";
+                    newBoardRow[j] = "destroyer";
+                    newBoardRow[j+1] = "destroyer";
                   }
                   newBoard[i] = newBoardRow;
                   return newBoard;
@@ -153,64 +153,91 @@ function App() {
                 })
               }
             }else if(direction === "vertical"){
-              if(placeShips.carrier){
+              if(pickShip.carrier){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
+                  let newBoardRow1 = [...newBoard[i]]
+                  let newBoardRow2 = [...newBoard[i+1]]
+                  let newBoardRow3 = [...newBoard[i+2]]
+                  let newBoardRow4 = [...newBoard[i+3]]
+                  let newBoardRow5 = [...newBoard[i+4]]
                   if(i>5){
-                    newBoard[i][j] = "out";
-                    newBoard[i+1][j] = "out";
-                    newBoard[i+2][j] = "out";
-                    newBoard[i+3][j] = "out";
+                    newBoardRow1[j] = "out";
+                    newBoardRow2[j] = "out";
+                    newBoardRow3[j] = "out";
+                    newBoardRow4[j] = "out";
                   }else{
-                    newBoard[i][j] = "hovering";
-                    newBoard[i+1][j] = "hovering";
-                    newBoard[i+2][j] = "hovering";
-                    newBoard[i+3][j] = "hovering";
-                    newBoard[i+4][j] = "hovering";
+                    newBoardRow1[j] = "carrier";
+                    newBoardRow2[j] = "carrier";
+                    newBoardRow3[j] = "carrier";
+                    newBoardRow4[j] = "carrier";
+                    newBoardRow5[j] = "carrier";
                   }
-                  // newBoard[i] = newBoardRow;
+                  
+                  newBoard[i] = newBoardRow1;
+                  newBoard[i+1] = newBoardRow2;
+                  newBoard[i+2] = newBoardRow3;
+                  newBoard[i+3] = newBoardRow4;
+                  newBoard[i+4] = newBoardRow5;
                   return newBoard;
                 })
-              }else if(placeShips.battleship){
+              }else if(pickShip.battleship){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
+                  let newBoardRow1 = [...newBoard[i]]
+                  let newBoardRow2 = [...newBoard[i+1]]
+                  let newBoardRow3 = [...newBoard[i+2]]
+                  let newBoardRow4 = [...newBoard[i+3]]
                   if(i>6){
-                    newBoard[i][j] = "out";
-                    newBoard[i+1][j] = "out";
-                    newBoard[i+2][j] = "out";
+                    newBoardRow1[j] = "out";
+                    newBoardRow2[j] = "out";
+                    newBoardRow3[j] = "out";
                   }else{
-                    newBoard[i][j] = "hovering";
-                    newBoard[i+1][j] = "hovering";
-                    newBoard[i+2][j] = "hovering";
-                    newBoard[i+3][j] = "hovering";
+                    newBoardRow1[j] = "battleship";
+                    newBoardRow2[j] = "battleship";
+                    newBoardRow3[j] = "battleship";
+                    newBoardRow4[j] = "battleship";
                   }
-                  // newBoard[i] = newBoardRow;
+                  
+                  newBoard[i] = newBoardRow1;
+                  newBoard[i+1] = newBoardRow2;
+                  newBoard[i+2] = newBoardRow3;
+                  newBoard[i+3] = newBoardRow4;
                   return newBoard;
                 })
-              }else if(placeShips.cruiser){
+              }else if(pickShip.cruiser){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
+                  let newBoardRow1 = [...newBoard[i]]
+                  let newBoardRow2 = [...newBoard[i+1]]
+                  let newBoardRow3 = [...newBoard[i+2]]
                   if(i>7){
-                    newBoard[i][j] = "out";
-                    newBoard[i+1][j] = "out";
+                    newBoardRow1[j] = "out";
+                    newBoardRow2[j] = "out";
                   }else{
-                    newBoard[i][j] = "hovering";
-                    newBoard[i+1][j] = "hovering";
-                    newBoard[i+2][j] = "hovering";
+                    newBoardRow1[j] = "cruiser";
+                    newBoardRow2[j] = "cruiser";
+                    newBoardRow3[j] = "cruiser";
                   }
-                  // newBoard[i] = newBoardRow;
+                  
+                  newBoard[i] = newBoardRow1;
+                  newBoard[i+1] = newBoardRow2;
+                  newBoard[i+2] = newBoardRow3;
                   return newBoard;
                 })
-              }else if(placeShips.destroyer){
+              }else if(pickShip.destroyer){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
+                  let newBoardRow1 = [...newBoard[i]]
+                  let newBoardRow2 = [...newBoard[i+1]]
                   if(i>8){
-                    newBoard[i][j] = "out";
+                    newBoardRow1[j] = "out";
                   }else{
-                    newBoard[i][j] = "hovering";
-                    newBoard[i+1][j] = "hovering";
+                    newBoardRow1[j] = "destroyer";
+                    newBoardRow2[j] = "destroyer";
                   }
-                  // newBoard[i] = newBoardRow;
+                  newBoard[i] = newBoardRow1;
+                  newBoard[i+1] = newBoardRow2;
                   return newBoard;
                 })
               }else{
@@ -227,9 +254,9 @@ function App() {
           
         }
         const handleHoverLeft = () => {
-          if(board[i][j] === "hovering" || board[i][j] === "out"){
+          if(board[i][j] === 'carrier'||board[i][j] === 'battleship'||board[i][j] === 'cruiser'||board[i][j] === 'destroyer'||board[i][j] === "hovering" || board[i][j] === "out"){
             if(direction === "horizontal"){
-              if(placeShips.carrier){
+              if(pickShip.carrier){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
@@ -241,7 +268,7 @@ function App() {
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
-              }else if(placeShips.battleship){
+              }else if(pickShip.battleship){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
@@ -252,7 +279,7 @@ function App() {
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
-              }else if(placeShips.cruiser){
+              }else if(pickShip.cruiser){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
@@ -262,7 +289,7 @@ function App() {
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
-              }else if(placeShips.destroyer){
+              }else if(pickShip.destroyer){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
@@ -282,7 +309,7 @@ function App() {
                 })
               }
             }else if(direction === "vertical"){
-              if(placeShips.carrier){
+              if(pickShip.carrier){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   newBoard[i][j] = null;
@@ -292,7 +319,7 @@ function App() {
                   newBoard[i+4][j] = null;
                   return newBoard;
                 })
-              }else if(placeShips.battleship){
+              }else if(pickShip.battleship){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   newBoard[i][j] = null;
@@ -301,7 +328,7 @@ function App() {
                   newBoard[i+3][j] = null;
                   return newBoard;
                 })
-              }else if(placeShips.cruiser){
+              }else if(pickShip.cruiser){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   newBoard[i][j] = null;
@@ -309,7 +336,7 @@ function App() {
                   newBoard[i+2][j] = null;
                   return newBoard;
                 })
-              }else if(placeShips.destroyer){
+              }else if(pickShip.destroyer){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   newBoard[i][j] = null;
@@ -331,10 +358,30 @@ function App() {
           }
           
         }
+        const handlePlaceShip = () => {
+          if(board[i][j] !== null){
+            
+            setBoard(prevBoard => {
+              const newBoard = [...prevBoard];
+              for(let x = 0; x<10; x++){
+                for(let y = 0; y<10; y++){
+                  if(newBoard[x][y] ==="carrier" && !placeShips.carrier){
+                    newBoard[x][y] = "placedCarrier";
+                    setPlaceShips({...placeShips, carrier : true})
+                  }else if(newBoard[x][y] ==="battleship"){
+                    newBoard[x][y] = "battleship";
+                  }
+                }
+              }
+              return newBoard
+            })
+          }
+        }
         colArray.push(
-          <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}} onMouseEnter = {handleHover} onMouseLeave={handleHoverLeft}>
-            {board[i][j] === 'hovering' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgrey'}} /> : null}
+          <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}} onMouseEnter = {handleHover} onMouseLeave={handleHoverLeft} onClick={handlePlaceShip}>
+            {board[i][j] === 'carrier'||board[i][j] === 'battleship'||board[i][j] === 'cruiser'||board[i][j] === 'destroyer'||board[i][j] === 'hovering' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgreen'}} /> : null}
             {board[i][j] === 'out' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'red'}} /> : null}
+            {board[i][j] === 'placedCarrier'||board[i][j] === 'placedBattleship'||board[i][j] === 'placedCruiser'||board[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null}
           </div>
         )
       }
