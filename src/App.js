@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
@@ -539,7 +538,7 @@ function App() {
     for(let i = 0; i< 10; i++){
       var colArray = [];
       for(let j=0; j< 10 ; j++){
-        
+
         colArray.push(
           <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}}>
             
