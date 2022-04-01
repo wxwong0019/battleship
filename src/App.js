@@ -26,12 +26,14 @@ function App() {
       cruiser:false,
       destroyer:false
     })
+  const [gameStart, setGameStart] = useState(false)
   const [board, setBoard] = useState(row)
+  
   const handleChangeDirection = () =>{
     direction === "vertical"? setDirection("horizontal"):setDirection("vertical");
   }
   const handlePlaceCarrier = () =>{
-    if(!pickShip.carrier){
+    if(!pickShip.carrier && !placeShips.carrier){
       setPickShip({
         carrier:true,
         battleship:false,
@@ -42,7 +44,7 @@ function App() {
     
   }
   const handlePlaceBattleship = () =>{
-    if(!pickShip.battleship){
+    if(!pickShip.battleship && !placeShips.battleship){
       setPickShip({
       carrier:false,
       battleship:true,
@@ -52,7 +54,7 @@ function App() {
   }
 }
   const handlePlaceCruiser = () =>{
-    if(!pickShip.cruiser){
+    if(!pickShip.cruiser && !placeShips.cruiser){
       setPickShip({
       carrier:false,
       battleship:false,
@@ -62,7 +64,7 @@ function App() {
   }
 }
   const handlePlaceDestroyer = () =>{
-    if(!pickShip.destroyer){
+    if(!pickShip.destroyer && !placeShips.destroyer){
       setPickShip({
       carrier:false,
       battleship:false,
@@ -71,6 +73,11 @@ function App() {
     })
   }
 }
+  const checkToBeStarted = () =>{
+    if(!gameStart && placeShips.carrier && placeShips.battleship && placeShips.cruiser && placeShips.destroyer){
+      setGameStart(true)
+    }
+  }
   const renderMyGrid = () => {
     var rowArray = [];
     for(let i = 0; i< 10; i++){
@@ -83,7 +90,14 @@ function App() {
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
-                  if(j>5){
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i][j+1] === "string" && board[i][j+1].charAt(0) === 'p')|| (typeof board[i][j+2] === "string" && board[i][j+2].charAt(0) === 'p')|| (typeof board[i][j+3] === "string" && board[i][j+3].charAt(0) === 'p')|| (typeof board[i][j+4] === "string" && board[i][j+4].charAt(0) === 'p')){
+                    if(newBoardRow[j] === null || typeof newBoardRow[j] === "string" && newBoardRow[j].charAt(0) !== 'p') newBoardRow[j] = "out"  ;
+                    if(newBoardRow[j+1] === null || typeof newBoardRow[j+1] === "string" && newBoardRow[j+1].charAt(0) !== 'p') newBoardRow[j+1] = "out";
+                    if(newBoardRow[j+2] === null || typeof newBoardRow[j+2] === "string" && newBoardRow[j+2].charAt(0) !== 'p') newBoardRow[j+2] = "out";
+                    if(newBoardRow[j+3] === null || typeof newBoardRow[j+3] === "string" && newBoardRow[j+3].charAt(0) !== 'p') newBoardRow[j+3] = "out";
+                    if(newBoardRow[j+4] === null || typeof newBoardRow[j+4] === "string" && newBoardRow[j+4].charAt(0) !== 'p') newBoardRow[j+4] = "out";
+                  }
+                  else if(j>5 ){
                     newBoardRow[j] = "out";
                     newBoardRow[j+1] = "out";
                     newBoardRow[j+2] = "out";
@@ -102,7 +116,13 @@ function App() {
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
-                  if(j>6){
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i][j+1] === "string" && board[i][j+1].charAt(0) === 'p')|| (typeof board[i][j+2] === "string" && board[i][j+2].charAt(0) === 'p')|| (typeof board[i][j+3] === "string" && board[i][j+3].charAt(0) === 'p')){
+                    if(newBoardRow[j] === null || typeof newBoardRow[j] === "string" && newBoardRow[j].charAt(0) !== 'p') newBoardRow[j] = "out"  ;
+                    if(newBoardRow[j+1] === null || typeof newBoardRow[j+1] === "string" && newBoardRow[j+1].charAt(0) !== 'p') newBoardRow[j+1] = "out";
+                    if(newBoardRow[j+2] === null || typeof newBoardRow[j+2] === "string" && newBoardRow[j+2].charAt(0) !== 'p') newBoardRow[j+2] = "out";
+                    if(newBoardRow[j+3] === null || typeof newBoardRow[j+3] === "string" && newBoardRow[j+3].charAt(0) !== 'p') newBoardRow[j+3] = "out";
+                  }
+                  else if(j>6){
                     newBoardRow[j] = "out";
                     newBoardRow[j+1] = "out";
                     newBoardRow[j+2] = "out";
@@ -119,7 +139,12 @@ function App() {
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
-                  if(j>7){
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i][j+1] === "string" && board[i][j+1].charAt(0) === 'p')|| (typeof board[i][j+2] === "string" && board[i][j+2].charAt(0) === 'p')){
+                    if(newBoardRow[j] === null || typeof newBoardRow[j] === "string" && newBoardRow[j].charAt(0) !== 'p') newBoardRow[j] = "out"  ;
+                    if(newBoardRow[j+1] === null || typeof newBoardRow[j+1] === "string" && newBoardRow[j+1].charAt(0) !== 'p') newBoardRow[j+1] = "out";
+                    if(newBoardRow[j+2] === null || typeof newBoardRow[j+2] === "string" && newBoardRow[j+2].charAt(0) !== 'p') newBoardRow[j+2] = "out";
+                  }
+                  else if(j>7){
                     newBoardRow[j] = "out";
                     newBoardRow[j+1] = "out";
                   }else{
@@ -134,7 +159,11 @@ function App() {
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
-                  if(j>8){
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i][j+1] === "string" && board[i][j+1].charAt(0) === 'p')){
+                    if(newBoardRow[j] === null || typeof newBoardRow[j] === "string" && newBoardRow[j].charAt(0) !== 'p') newBoardRow[j] = "out"  ;
+                    if(newBoardRow[j+1] === null || typeof newBoardRow[j+1] === "string" && newBoardRow[j+1].charAt(0) !== 'p') newBoardRow[j+1] = "out";
+                  }
+                  else if(j>8){
                     newBoardRow[j] = "out";
                   }else{
                     newBoardRow[j] = "destroyer";
@@ -161,7 +190,14 @@ function App() {
                   let newBoardRow3 = [...newBoard[i+2]]
                   let newBoardRow4 = [...newBoard[i+3]]
                   let newBoardRow5 = [...newBoard[i+4]]
-                  if(i>5){
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i+1][j] === "string" && board[i+1][j].charAt(0) === 'p')|| (typeof board[i+2][j] === "string" && board[i+2][j].charAt(0) === 'p')|| (typeof board[i+3][j] === "string" && board[i+3][j].charAt(0) === 'p')|| (typeof board[i+4][j] === "string" && board[i+4][j].charAt(0) === 'p')){
+                    if(newBoardRow1[j] === null || typeof newBoardRow1[j] === "string" && newBoardRow1[j].charAt(0) !== 'p') newBoardRow1[j] = "out"  ;
+                    if(newBoardRow2[j] === null || typeof newBoardRow2[j] === "string" && newBoardRow2[j].charAt(0) !== 'p') newBoardRow2[j] = "out";
+                    if(newBoardRow3[j] === null || typeof newBoardRow3[j] === "string" && newBoardRow3[j].charAt(0) !== 'p') newBoardRow3[j] = "out";
+                    if(newBoardRow4[j] === null || typeof newBoardRow4[j] === "string" && newBoardRow4[j].charAt(0) !== 'p') newBoardRow4[j] = "out";
+                    if(newBoardRow5[j] === null || typeof newBoardRow5[j] === "string" && newBoardRow5[j].charAt(0) !== 'p') newBoardRow5[j] = "out";
+                  }
+                  else if(i>5){
                     newBoardRow1[j] = "out";
                     newBoardRow2[j] = "out";
                     newBoardRow3[j] = "out";
@@ -188,7 +224,13 @@ function App() {
                   let newBoardRow2 = [...newBoard[i+1]]
                   let newBoardRow3 = [...newBoard[i+2]]
                   let newBoardRow4 = [...newBoard[i+3]]
-                  if(i>6){
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i+1][j] === "string" && board[i+1][j].charAt(0) === 'p')|| (typeof board[i+2][j] === "string" && board[i+2][j].charAt(0) === 'p')|| (typeof board[i+3][j] === "string" && board[i+3][j].charAt(0) === 'p')){
+                    if(newBoardRow1[j] === null || typeof newBoardRow1[j] === "string" && newBoardRow1[j].charAt(0) !== 'p') newBoardRow1[j] = "out"  ;
+                    if(newBoardRow2[j] === null || typeof newBoardRow2[j] === "string" && newBoardRow2[j].charAt(0) !== 'p') newBoardRow2[j] = "out";
+                    if(newBoardRow3[j] === null || typeof newBoardRow3[j] === "string" && newBoardRow3[j].charAt(0) !== 'p') newBoardRow3[j] = "out";
+                    if(newBoardRow4[j] === null || typeof newBoardRow4[j] === "string" && newBoardRow4[j].charAt(0) !== 'p') newBoardRow4[j] = "out";
+                  }
+                  else if(i>6){
                     newBoardRow1[j] = "out";
                     newBoardRow2[j] = "out";
                     newBoardRow3[j] = "out";
@@ -211,7 +253,12 @@ function App() {
                   let newBoardRow1 = [...newBoard[i]]
                   let newBoardRow2 = [...newBoard[i+1]]
                   let newBoardRow3 = [...newBoard[i+2]]
-                  if(i>7){
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i+1][j] === "string" && board[i+1][j].charAt(0) === 'p')|| (typeof board[i+2][j] === "string" && board[i+2][j].charAt(0) === 'p')){
+                    if(newBoardRow1[j] === null || typeof newBoardRow1[j] === "string" && newBoardRow1[j].charAt(0) !== 'p') newBoardRow1[j] = "out"  ;
+                    if(newBoardRow2[j] === null || typeof newBoardRow2[j] === "string" && newBoardRow2[j].charAt(0) !== 'p') newBoardRow2[j] = "out";
+                    if(newBoardRow3[j] === null || typeof newBoardRow3[j] === "string" && newBoardRow3[j].charAt(0) !== 'p') newBoardRow3[j] = "out";
+                  }
+                  else if(i>7){
                     newBoardRow1[j] = "out";
                     newBoardRow2[j] = "out";
                   }else{
@@ -230,7 +277,11 @@ function App() {
                   const newBoard = [...prevBoard];
                   let newBoardRow1 = [...newBoard[i]]
                   let newBoardRow2 = [...newBoard[i+1]]
-                  if(i>8){
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i+1][j] === "string" && board[i+1][j].charAt(0) === 'p')){
+                    if(newBoardRow1[j] === null || typeof newBoardRow1[j] === "string" && newBoardRow1[j].charAt(0) !== 'p') newBoardRow1[j] = "out"  ;
+                    if(newBoardRow2[j] === null || typeof newBoardRow2[j] === "string" && newBoardRow2[j].charAt(0) !== 'p') newBoardRow2[j] = "out";
+                  }
+                  else if(i>8){
                     newBoardRow1[j] = "out";
                   }else{
                     newBoardRow1[j] = "destroyer";
@@ -260,11 +311,20 @@ function App() {
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
-                  newBoardRow[j] = null;
-                  newBoardRow[j+1] = null;
-                  newBoardRow[j+2] = null;
-                  newBoardRow[j+3] = null;
-                  newBoardRow[j+4] = null;
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i][j+1] === "string" && board[i][j+1].charAt(0) === 'p')|| (typeof board[i][j+2] === "string" && board[i][j+2].charAt(0) === 'p')|| (typeof board[i][j+3] === "string" && board[i][j+3].charAt(0) === 'p')|| (typeof board[i][j+4] === "string" && board[i][j+4].charAt(0) === 'p')){
+                    if(typeof newBoardRow[j] === "string" && newBoardRow[j].charAt(0) !== 'p') newBoardRow[j] = null  ;
+                    if(typeof newBoardRow[j+1] === "string" && newBoardRow[j+1].charAt(0) !== 'p') newBoardRow[j+1] = null;
+                    if(typeof newBoardRow[j+2] === "string" && newBoardRow[j+2].charAt(0) !== 'p') newBoardRow[j+2] = null;
+                    if(typeof newBoardRow[j+3] === "string" && newBoardRow[j+3].charAt(0) !== 'p') newBoardRow[j+3] = null;
+                    if(typeof newBoardRow[j+4] === "string" && newBoardRow[j+4].charAt(0) !== 'p') newBoardRow[j+4] = null;
+                  }else{
+                    newBoardRow[j] = null;
+                    newBoardRow[j+1] = null;
+                    newBoardRow[j+2] = null;
+                    newBoardRow[j+3] = null;
+                    newBoardRow[j+4] = null;
+                  }
+                  
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
@@ -272,10 +332,17 @@ function App() {
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
-                  newBoardRow[j] = null;
-                  newBoardRow[j+1] = null;
-                  newBoardRow[j+2] = null;
-                  newBoardRow[j+3] = null;
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i][j+1] === "string" && board[i][j+1].charAt(0) === 'p')|| (typeof board[i][j+2] === "string" && board[i][j+2].charAt(0) === 'p')|| (typeof board[i][j+3] === "string" && board[i][j+3].charAt(0) === 'p')){
+                    if(typeof newBoardRow[j] === "string" && newBoardRow[j].charAt(0) !== 'p') newBoardRow[j] = null  ;
+                    if(typeof newBoardRow[j+1] === "string" && newBoardRow[j+1].charAt(0) !== 'p') newBoardRow[j+1] = null;
+                    if(typeof newBoardRow[j+2] === "string" && newBoardRow[j+2].charAt(0) !== 'p') newBoardRow[j+2] = null;
+                    if(typeof newBoardRow[j+3] === "string" && newBoardRow[j+3].charAt(0) !== 'p') newBoardRow[j+3] = null;
+                  }else{
+                    newBoardRow[j] = null;
+                    newBoardRow[j+1] = null;
+                    newBoardRow[j+2] = null;
+                    newBoardRow[j+3] = null;
+                  }
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
@@ -283,9 +350,15 @@ function App() {
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
-                  newBoardRow[j] = null;
-                  newBoardRow[j+1] = null;
-                  newBoardRow[j+2] = null;
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i][j+1] === "string" && board[i][j+1].charAt(0) === 'p')|| (typeof board[i][j+2] === "string" && board[i][j+2].charAt(0) === 'p')){
+                    if(typeof newBoardRow[j] === "string" && newBoardRow[j].charAt(0) !== 'p') newBoardRow[j] = null  ;
+                    if(typeof newBoardRow[j+1] === "string" && newBoardRow[j+1].charAt(0) !== 'p') newBoardRow[j+1] = null;
+                    if(typeof newBoardRow[j+2] === "string" && newBoardRow[j+2].charAt(0) !== 'p') newBoardRow[j+2] = null;
+                  }else{
+                    newBoardRow[j] = null;
+                    newBoardRow[j+1] = null;
+                    newBoardRow[j+2] = null;
+                  }
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
@@ -293,8 +366,13 @@ function App() {
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
                   const newBoardRow = [...newBoard[i]];
-                  newBoardRow[j] = null;
-                  newBoardRow[j+1] = null;
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i][j+1] === "string" && board[i][j+1].charAt(0) === 'p')){
+                    if(typeof newBoardRow[j] === "string" && newBoardRow[j].charAt(0) !== 'p') newBoardRow[j] = null  ;
+                    if(typeof newBoardRow[j+1] === "string" && newBoardRow[j+1].charAt(0) !== 'p') newBoardRow[j+1] = null;
+                  }else{
+                    newBoardRow[j] = null;
+                    newBoardRow[j+1] = null;
+                  }
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })
@@ -312,35 +390,62 @@ function App() {
               if(pickShip.carrier){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
-                  newBoard[i][j] = null;
-                  newBoard[i+1][j] = null;
-                  newBoard[i+2][j] = null;
-                  newBoard[i+3][j] = null;
-                  newBoard[i+4][j] = null;
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i+1][j] === "string" && board[i+1][j].charAt(0) === 'p')|| (typeof board[i+2][j] === "string" && board[i+2][j].charAt(0) === 'p')|| (typeof board[i+3][j] === "string" && board[i+3][j].charAt(0) === 'p')|| (typeof board[i+4][j] === "string" && board[i+4][j].charAt(0) === 'p')){
+                    if(typeof newBoard[i][j] === "string" && newBoard[i][j].charAt(0) !== 'p') newBoard[i][j] = null;
+                    if(typeof newBoard[i+1][j] === "string" && newBoard[i+1][j].charAt(0) !== 'p') newBoard[i+1][j] = null;
+                    if(typeof newBoard[i+2][j] === "string" && newBoard[i+2][j].charAt(0) !== 'p') newBoard[i+2][j] = null;
+                    if(typeof newBoard[i+3][j] === "string" && newBoard[i+3][j].charAt(0) !== 'p') newBoard[i+3][j] = null;
+                    if(typeof newBoard[i+4][j] === "string" && newBoard[i+4][j].charAt(0) !== 'p') newBoard[i+4][j] = null;
+                  }else{
+                    newBoard[i][j] = null;
+                    newBoard[i+1][j] = null;
+                    newBoard[i+2][j] = null;
+                    newBoard[i+3][j] = null;
+                    newBoard[i+4][j] = null;
+                  }
+                  
                   return newBoard;
                 })
               }else if(pickShip.battleship){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i+1][j] === "string" && board[i+1][j].charAt(0) === 'p')|| (typeof board[i+2][j] === "string" && board[i+2][j].charAt(0) === 'p')|| (typeof board[i+3][j] === "string" && board[i+3][j].charAt(0) === 'p')){
+                    if(typeof newBoard[i][j] === "string" && newBoard[i][j].charAt(0) !== 'p') newBoard[i][j] = null;
+                    if(typeof newBoard[i+1][j] === "string" && newBoard[i+1][j].charAt(0) !== 'p') newBoard[i+1][j] = null;
+                    if(typeof newBoard[i+2][j] === "string" && newBoard[i+2][j].charAt(0) !== 'p') newBoard[i+2][j] = null;
+                    if(typeof newBoard[i+3][j] === "string" && newBoard[i+3][j].charAt(0) !== 'p') newBoard[i+3][j] = null;
+                  }else{
                   newBoard[i][j] = null;
                   newBoard[i+1][j] = null;
                   newBoard[i+2][j] = null;
                   newBoard[i+3][j] = null;
+                  }
                   return newBoard;
                 })
               }else if(pickShip.cruiser){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i+1][j] === "string" && board[i+1][j].charAt(0) === 'p')|| (typeof board[i+2][j] === "string" && board[i+2][j].charAt(0) === 'p')){
+                    if(typeof newBoard[i][j] === "string" && newBoard[i][j].charAt(0) !== 'p') newBoard[i][j] = null;
+                    if(typeof newBoard[i+1][j] === "string" && newBoard[i+1][j].charAt(0) !== 'p') newBoard[i+1][j] = null;
+                    if(typeof newBoard[i+2][j] === "string" && newBoard[i+2][j].charAt(0) !== 'p') newBoard[i+2][j] = null;
+                  }else{
                   newBoard[i][j] = null;
                   newBoard[i+1][j] = null;
                   newBoard[i+2][j] = null;
+                  }
                   return newBoard;
                 })
               }else if(pickShip.destroyer){
                 setBoard(prevBoard => {
                   const newBoard = [...prevBoard];
+                  if( (typeof board[i][j] === "string" && board[i][j].charAt(0) === 'p')||(typeof board[i+1][j] === "string" && board[i+1][j].charAt(0) === 'p')){
+                    if(typeof newBoard[i][j] === "string" && newBoard[i][j].charAt(0) !== 'p') newBoard[i][j] = null;
+                    if(typeof newBoard[i+1][j] === "string" && newBoard[i+1][j].charAt(0) !== 'p') newBoard[i+1][j] = null;
+                  }else{
                   newBoard[i][j] = null;
                   newBoard[i+1][j] = null;
+                  }
                   return newBoard;
                 })
               }
@@ -358,8 +463,40 @@ function App() {
           }
           
         }
-        const handlePlaceShip = () => {
-          if(board[i][j] !== null){
+        const handleClick = () => {
+          
+          if(!gameStart && board[i][j] !== null && board[i][j].charAt(0) !== 'p' ){
+            if(board[i][j] === "carrier"){
+              let newPickShip = {...pickShip, carrier : false}
+              setPickShip(newPickShip)
+              setPlaceShips(prev => {
+                const newPlaceShip = {...prev, carrier:true}
+                return newPlaceShip
+              })
+            }else if(board[i][j] === "battleship"){
+              let newPickShip = {...pickShip, battleship : false}
+              setPickShip(newPickShip)
+              setPlaceShips(prev => {
+                const newPlaceShip = {...prev, battleship:true}
+                return newPlaceShip
+              })
+            }else if(board[i][j] === "cruiser"){
+              let newPickShip = {...pickShip, cruiser : false}
+              setPickShip(newPickShip)
+              setPlaceShips(prev => {
+                const newPlaceShip = {...prev, cruiser:true}
+                return newPlaceShip
+              })
+            }else if(board[i][j] === "destroyer"){
+              let newPickShip = {...pickShip, destroyer : false}
+              setPickShip(newPickShip)
+              setPlaceShips(prev => {
+                const newPlaceShip = {...prev, destroyer:true}
+                return newPlaceShip
+              })
+            }else if(gameStart && board[i][j] !== null && board[i][j].charAt(0) === 'p'){
+
+            }
             
             setBoard(prevBoard => {
               const newBoard = [...prevBoard];
@@ -367,9 +504,12 @@ function App() {
                 for(let y = 0; y<10; y++){
                   if(newBoard[x][y] ==="carrier" && !placeShips.carrier){
                     newBoard[x][y] = "placedCarrier";
-                    setPlaceShips({...placeShips, carrier : true})
                   }else if(newBoard[x][y] ==="battleship"){
-                    newBoard[x][y] = "battleship";
+                    newBoard[x][y] = "placedBattleship";
+                  }else if(newBoard[x][y] ==="cruiser"){
+                    newBoard[x][y] = "placedCruiser";
+                  }else if(newBoard[x][y] ==="destroyer"){
+                    newBoard[x][y] = "placedDestroyer";
                   }
                 }
               }
@@ -378,8 +518,9 @@ function App() {
           }
         }
         colArray.push(
-          <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}} onMouseEnter = {handleHover} onMouseLeave={handleHoverLeft} onClick={handlePlaceShip}>
-            {board[i][j] === 'carrier'||board[i][j] === 'battleship'||board[i][j] === 'cruiser'||board[i][j] === 'destroyer'||board[i][j] === 'hovering' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgreen'}} /> : null}
+          <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}} onMouseEnter = {handleHover} onMouseLeave={handleHoverLeft} onClick={handleClick}>
+            {board[i][j] === 'carrier'||board[i][j] === 'battleship'||board[i][j] === 'cruiser'||board[i][j] === 'destroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgreen'}} /> : null}
+            {board[i][j] === 'hovering' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgrey'}} /> : null}
             {board[i][j] === 'out' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'red'}} /> : null}
             {board[i][j] === 'placedCarrier'||board[i][j] === 'placedBattleship'||board[i][j] === 'placedCruiser'||board[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null}
           </div>
@@ -398,6 +539,7 @@ function App() {
     for(let i = 0; i< 10; i++){
       var colArray = [];
       for(let j=0; j< 10 ; j++){
+        
         colArray.push(
           <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}}>
             
@@ -414,16 +556,24 @@ function App() {
   }
   return (
     <div className="App" >
-      {console.log(board)}
+      {checkToBeStarted()}
       <div style = {{ display: 'flex'}}>
         <div> 
           <div>my board</div>
           <div>{renderMyGrid()}</div>
-          <button onClick={handlePlaceCarrier}> carrier </button>
-          <button onClick={handlePlaceBattleship}> battleship </button>
-          <button onClick={handlePlaceCruiser}> cruiser </button>
-          <button onClick={handlePlaceDestroyer}> destroyer </button>
-          <button onClick={handleChangeDirection}>{direction === "vertical"?<div>Vertical</div>:<div>Horizontal</div>}</button>
+          {
+            gameStart ? 
+            <div>Game Started!</div> : 
+            <div>
+              <button onClick={handlePlaceCarrier} disabled={placeShips.carrier}> carrier </button>
+              <button onClick={handlePlaceBattleship} disabled={placeShips.battleship}> battleship </button>
+              <button onClick={handlePlaceCruiser} disabled={placeShips.cruiser}> cruiser </button>
+              <button onClick={handlePlaceDestroyer}disabled={placeShips.destroyer}> destroyer </button>
+              <button onClick={handleChangeDirection}>{direction === "vertical"?<div>Vertical</div>:<div>Horizontal</div>}</button>
+            </div>
+          }
+          
+          
         </div>
         <div style = {{  marginLeft : "20vw"}}>
           <div>opponents board</div>
