@@ -10,6 +10,31 @@ function App() {
     }
     row.push(col);
   }
+  var opponentsRow = [];
+  for(let i = 0; i< 15; i++){
+    var col = [];
+    for(let j=0; j< 10 ; j++){
+      col.push(null)
+    }
+    opponentsRow.push(col);
+  }
+  const arr = [2,3,4,5];
+  const shipArr = ["placedDestroyer", "placedCruiser", "placedBattleship", "placedCarrier"];
+  for(let i=0; i<4; i++){
+    let startingI = Math.floor(Math.random() * (10-arr[i])+1);
+    let startingJ = Math.floor(Math.random() * (10-arr[i])+1);
+    let randomDir = Math.floor(Math.random()*2);
+    if(randomDir === 1){
+      for(let x = startingI; x<(startingI+arr[i]); x++){
+        opponentsRow[x][startingJ] = shipArr[i];
+      }
+    }else{
+      for(let y = startingJ; y<(startingJ+arr[i]); y++){
+        opponentsRow[startingI][y] = shipArr[i];
+      }
+    }
+    
+  }
   const [direction, setDirection] = useState("horizontal")
   const [placeShips, setPlaceShips] = useState(
     {
@@ -27,6 +52,8 @@ function App() {
     })
   const [gameStart, setGameStart] = useState(false)
   const [board, setBoard] = useState(row)
+  const [opponentsBoard, setOpponentsBoard] = useState(opponentsRow);
+
   
   const handleChangeDirection = () =>{
     direction === "vertical"? setDirection("horizontal"):setDirection("vertical");
@@ -556,6 +583,7 @@ function App() {
   return (
     <div className="App" >
       {checkToBeStarted()}
+      {console.log(opponentsBoard)}
       <div style = {{ display: 'flex'}}>
         <div> 
           <div>my board</div>
