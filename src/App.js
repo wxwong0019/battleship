@@ -21,10 +21,29 @@ function App() {
   const arr = [2,3,4,5];
   const shipArr = ["placedDestroyer", "placedCruiser", "placedBattleship", "placedCarrier"];
   for(let i=0; i<4; i++){
-    let startingI = Math.floor(Math.random() * (10-arr[i])+1);
-    let startingJ = Math.floor(Math.random() * (10-arr[i])+1);
+    let cont = false;
+    let startingI = Math.floor(Math.random() * (10-arr[i]+1));
+    let startingJ = Math.floor(Math.random() * (10-arr[i]+1));
     let randomDir = Math.floor(Math.random()*2);
+    for(let x = startingI; x<(startingI+arr[i]); x++){
+      if(opponentsRow[x][startingJ] !== null){
+        cont = true;
+        break;
+      }
+    }
+    
+    for(let y = startingJ; y<(startingJ+arr[i]); y++){
+      if(opponentsRow[startingI][y] !== null){
+        cont = true;
+        break;
+      }
+    }
+    if (cont){
+      i--;
+      continue;
+    }
     if(randomDir === 1){
+      
       for(let x = startingI; x<(startingI+arr[i]); x++){
         opponentsRow[x][startingJ] = shipArr[i];
       }
@@ -33,7 +52,6 @@ function App() {
         opponentsRow[startingI][y] = shipArr[i];
       }
     }
-    
   }
   const [direction, setDirection] = useState("horizontal")
   const [placeShips, setPlaceShips] = useState(
@@ -568,7 +586,7 @@ function App() {
 
         colArray.push(
           <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}}>
-            
+            {opponentsBoard[i][j] === 'placedCarrier'||opponentsBoard[i][j] === 'placedBattleship'||opponentsBoard[i][j] === 'placedCruiser'||opponentsBoard[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null}
           </div>
         )
       }
