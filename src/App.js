@@ -75,7 +75,7 @@ function App() {
   const [myShips, setMyShips] = useState([0,0,0,0])
   const [opponentesShips, setOpponentsShips] = useState([0,0,0,0]);
   const [gameEnd, setGameEnd] = useState(false);
-  
+  const [myTurn, setMyTurn] = useState(true);
   const handleChangeDirection = () =>{
     direction === "vertical"? setDirection("horizontal"):setDirection("vertical");
   }
@@ -120,9 +120,15 @@ function App() {
     })
   }
 }
-  const checkToBeStarted = () =>{
+  const checkGameStart = () =>{
     if(!gameStart && placeShips.carrier && placeShips.battleship && placeShips.cruiser && placeShips.destroyer){
       setGameStart(true)
+    }
+    console.log("check game started")
+  }
+  const opponentAI = () => {
+    if(!myTurn){
+      setMyTurn(true);
     }
   }
   const renderMyGrid = () => {
@@ -562,6 +568,8 @@ function App() {
               }
               return newBoard
             })
+          }else if(gameStart){
+
           }
         }
         colArray.push(
@@ -678,49 +686,52 @@ function App() {
           }
         }
         const handleOnClick = () => {
-          if(opponentsBoard[i][j] === "hovering"){
-            setOpponentsBoard(prevBoard => {
-              const newBoard = [...prevBoard];
-              const newBoardRow = [...newBoard[i]];
-              newBoardRow[j] = "missed";
-              newBoard[i] = newBoardRow;
-              return newBoard;
-            })
-          }else{
-            if(opponentsBoard[i][j] === "hoveringPlacedCarrier"){
+          if(myTurn && !gameEnd){
+            if(opponentsBoard[i][j] === "hovering" ){
               setOpponentsBoard(prevBoard => {
                 const newBoard = [...prevBoard];
                 const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = "clickCarrier";
+                newBoardRow[j] = "missed";
                 newBoard[i] = newBoardRow;
                 return newBoard;
-              })  
-            }else if(opponentsBoard[i][j] === "hoveringPlacedBattleship"){
-              setOpponentsBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = "clickBattleship";
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })  
-            }else if(opponentsBoard[i][j] === "hoveringPlacedCruiser"){
-              setOpponentsBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = "clickCruiser";
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })  
-            }else if(opponentsBoard[i][j] === "hoveringPlacedDestroyer"){
-              setOpponentsBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                const newBoardRow = [...newBoard[i]];
-                newBoardRow[j] = "clickDestroyer";
-                newBoard[i] = newBoardRow;
-                return newBoard;
-              })  
-            } 
+              })
+            }else{
+              if(opponentsBoard[i][j] === "hoveringPlacedCarrier"){
+                setOpponentsBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = "clickCarrier";
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })  
+              }else if(opponentsBoard[i][j] === "hoveringPlacedBattleship"){
+                setOpponentsBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = "clickBattleship";
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })  
+              }else if(opponentsBoard[i][j] === "hoveringPlacedCruiser"){
+                setOpponentsBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = "clickCruiser";
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })  
+              }else if(opponentsBoard[i][j] === "hoveringPlacedDestroyer"){
+                setOpponentsBoard(prevBoard => {
+                  const newBoard = [...prevBoard];
+                  const newBoardRow = [...newBoard[i]];
+                  newBoardRow[j] = "clickDestroyer";
+                  newBoard[i] = newBoardRow;
+                  return newBoard;
+                })  
+              } 
+            }
           }
+          
         }
         colArray.push(
           <div style = {{border : "1px solid", width: '3vw', height: '3vw',display:"flex"}} onMouseEnter = {handleHover} onMouseLeave={handleHoverLeft} onClick = {handleOnClick}>
@@ -746,7 +757,8 @@ function App() {
   }
   return (
     <div className="App" >
-      {checkToBeStarted()}
+      {checkGameStart()}
+      {opponentAI()}
       {console.log(opponentsBoard)}
       <div style = {{ display: 'flex'}}>
         <div> 
