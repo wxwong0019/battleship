@@ -20,6 +20,7 @@ function App() {
   }
   const arr = [2,3,4,5];
   const shipArr = ["placedDestroyer", "placedCruiser", "placedBattleship", "placedCarrier"];
+  // Generate opponents board
   for(let i=0; i<4; i++){
     let cont = false;
     let startingI = Math.floor(Math.random() * (10-arr[i]+1));
@@ -720,10 +721,16 @@ function App() {
           }
         }
         colArray.push(
-          <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}} onMouseEnter = {handleHover} onMouseLeave={handleHoverLeft} onClick = {handleOnClick}>
-            {/* {opponentsBoard[i][j] === 'placedCarrier'||opponentsBoard[i][j] === 'placedBattleship'||opponentsBoard[i][j] === 'placedCruiser'||opponentsBoard[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null} */}
+          <div style = {{border : "1px solid", width: '3vw', height: '3vw',display:"flex"}} onMouseEnter = {handleHover} onMouseLeave={handleHoverLeft} onClick = {handleOnClick}>
+            {opponentsBoard[i][j] === 'placedCarrier'||opponentsBoard[i][j] === 'placedBattleship'||opponentsBoard[i][j] === 'placedCruiser'||opponentsBoard[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null}
             {opponentsBoard[i][j]!== null && opponentsBoard[i][j].charAt(0) === 'h'|| opponentsBoard[i][j]!== null && opponentsBoard[i][j] === 'missed'? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgrey'}} /> : null}
-            {opponentsBoard[i][j]!== null && opponentsBoard[i][j].charAt(0) === 'c' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}}/> : null}
+            {opponentsBoard[i][j]!== null && opponentsBoard[i][j].charAt(0) === 'c' ? 
+            <div style={{ width: '3vw', height: '3vw',backgroundColor:'black',display:"flex", justifyContent:"center", alignItems: "center"}}>
+              <div style={{ width: '80%', height: '80%', borderRadius:"50%",backgroundColor:"red", display:"flex", justifyContent:"center", alignItems: "center"}} >
+                <div style={{ width: '50%', height: '50%', borderRadius:"50%",backgroundColor:"orange"}} />
+              </div>
+            </div> 
+            : null}
           </div>
         )
       }
@@ -759,7 +766,7 @@ function App() {
         </div>
         <div style = {{  marginLeft : "20vw"}}>
           <div>opponents board</div>
-          <div>{renderOpponentsGrid()}</div> 
+          <div >{renderOpponentsGrid()}</div> 
         </div>
         
       </div>
