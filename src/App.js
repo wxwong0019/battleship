@@ -72,7 +72,9 @@ function App() {
   const [gameStart, setGameStart] = useState(false)
   const [board, setBoard] = useState(row)
   const [opponentsBoard, setOpponentsBoard] = useState(opponentsRow);
-
+  const [myShips, setMyShips] = useState([0,0,0,0])
+  const [opponentesShips, setOpponentsShips] = useState([0,0,0,0]);
+  const [gameEnd, setGameEnd] = useState(false);
   
   const handleChangeDirection = () =>{
     direction === "vertical"? setDirection("horizontal"):setDirection("vertical");
