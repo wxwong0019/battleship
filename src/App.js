@@ -74,7 +74,7 @@ function App() {
   const [opponentsBoard, setOpponentsBoard] = useState(opponentsRow);
   const [myShips, setMyShips] = useState([0,0,0,0])
   const [opponentesShips, setOpponentsShips] = useState([0,0,0,0]);
-  const [gameEnd, setGameEnd] = useState(false);
+  const [gameEnd, setGameEnd] = useState("");
   const [myTurn, setMyTurn] = useState(true);
   const handleChangeDirection = () =>{
     direction === "vertical"? setDirection("horizontal"):setDirection("vertical");
@@ -127,10 +127,80 @@ function App() {
     console.log("check game started")
   }
   const opponentAI = () => {
+    var i = 0, j=0
     if(!myTurn){
+      if(board[i][j] === "placedCarrier"){
+        setBoard(prevBoard => {
+          const newBoard = [...prevBoard];
+          const newBoardRow = [...newBoard[i]];
+          newBoardRow[j] = "clickCarrier";
+          newBoard[i] = newBoardRow;
+          return newBoard;
+        })
+        setMyShips(prev => {
+          const newArray = [...prev];
+          newArray[3]++;
+          return newArray;
+        })
+      }else if(board[i][j] === "placedBattleship"){
+        setBoard(prevBoard => {
+          const newBoard = [...prevBoard];
+          const newBoardRow = [...newBoard[i]];
+          newBoardRow[j] = "clickBattleship";
+          newBoard[i] = newBoardRow;
+          return newBoard;
+        })
+        setMyShips(prev => {
+          const newArray = [...prev];
+          newArray[2]++;
+          return newArray;
+        })
+      }else if(board[i][j] === "placedCruiser"){
+        setBoard(prevBoard => {
+          const newBoard = [...prevBoard];
+          const newBoardRow = [...newBoard[i]];
+          newBoardRow[j] = "clickCruiser";
+          newBoard[i] = newBoardRow;
+          return newBoard;
+        })
+        setMyShips(prev => {
+          const newArray = [...prev];
+          newArray[1]++;
+          return newArray;
+        })
+      }else if(board[i][j] === "placedDestroyer"){
+        setBoard(prevBoard => {
+          const newBoard = [...prevBoard];
+          const newBoardRow = [...newBoard[i]];
+          newBoardRow[j] = "clickDestroyer";
+          newBoard[i] = newBoardRow;
+          return newBoard;
+        })  
+        setMyShips(prev => {
+          const newArray = [...prev];
+          newArray[0]++;
+          return newArray;
+        })
+      }else if(board[i][j] === "hovering" ){
+        setBoard(prevBoard => {
+          const newBoard = [...prevBoard];
+          const newBoardRow = [...newBoard[i]];
+          newBoardRow[j] = "missed";
+          newBoard[i] = newBoardRow;
+          return newBoard;
+        })
+      }
       setMyTurn(true);
     }
   }
+  const checkGameEnded =()=>{
+    if(myShips[0] === 2 && myShips[1] === 3 &&myShips[2] === 4 &&myShips[3] === 5 ){
+      setGameEnd("AI")
+    }else if(opponentesShips[0] === 2 && opponentesShips[1] === 3 &&opponentesShips[2] === 4 &&opponentesShips[3] === 5){
+      setGameEnd("You")
+    }
+  }
+
   const renderMyGrid = () => {
     var rowArray = [];
     for(let i = 0; i< 10; i++){
@@ -516,8 +586,7 @@ function App() {
           }
           
         }
-        const handleClick = () => {
-          
+        const handleClick = () => {        
           if(!gameStart && board[i][j] !== null && board[i][j].charAt(0) !== 'p' ){
             if(board[i][j] === "carrier"){
               let newPickShip = {...pickShip, carrier : false}
@@ -578,6 +647,13 @@ function App() {
             {board[i][j] === 'hovering' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgrey'}} /> : null}
             {board[i][j] === 'out' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'red'}} /> : null}
             {board[i][j] === 'placedCarrier'||board[i][j] === 'placedBattleship'||board[i][j] === 'placedCruiser'||board[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null}
+            {board[i][j]!== null && board[i][j].charAt(0) === 'c' ? 
+            <div style={{ width: '3vw', height: '3vw',backgroundColor:'black',display:"flex", justifyContent:"center", alignItems: "center"}}>
+              <div style={{ width: '80%', height: '80%', borderRadius:"50%",backgroundColor:"red", display:"flex", justifyContent:"center", alignItems: "center"}} >
+                <div style={{ width: '50%', height: '50%', borderRadius:"50%",backgroundColor:"orange"}} />
+              </div>
+            </div> 
+            : null}
           </div>
         )
       }
@@ -686,7 +762,7 @@ function App() {
           }
         }
         const handleOnClick = () => {
-          if(myTurn && !gameEnd){
+          if(myTurn && gameEnd!==null){
             if(opponentsBoard[i][j] === "hovering" ){
               setOpponentsBoard(prevBoard => {
                 const newBoard = [...prevBoard];
@@ -703,7 +779,12 @@ function App() {
                   newBoardRow[j] = "clickCarrier";
                   newBoard[i] = newBoardRow;
                   return newBoard;
-                })  
+                })
+                setOpponentsShips(prev => {
+                  const newArray = [...prev];
+                  newArray[3]++;
+                  return newArray;
+                })
               }else if(opponentsBoard[i][j] === "hoveringPlacedBattleship"){
                 setOpponentsBoard(prevBoard => {
                   const newBoard = [...prevBoard];
@@ -712,6 +793,11 @@ function App() {
                   newBoard[i] = newBoardRow;
                   return newBoard;
                 })  
+                setOpponentsShips(prev => {
+                  const newArray = [...prev];
+                  newArray[2]++;
+                  return newArray;
+                })
               }else if(opponentsBoard[i][j] === "hoveringPlacedCruiser"){
                 setOpponentsBoard(prevBoard => {
                   const newBoard = [...prevBoard];
@@ -719,7 +805,12 @@ function App() {
                   newBoardRow[j] = "clickCruiser";
                   newBoard[i] = newBoardRow;
                   return newBoard;
-                })  
+                })
+                setOpponentsShips(prev => {
+                  const newArray = [...prev];
+                  newArray[1]++;
+                  return newArray;
+                })
               }else if(opponentsBoard[i][j] === "hoveringPlacedDestroyer"){
                 setOpponentsBoard(prevBoard => {
                   const newBoard = [...prevBoard];
@@ -727,7 +818,12 @@ function App() {
                   newBoardRow[j] = "clickDestroyer";
                   newBoard[i] = newBoardRow;
                   return newBoard;
-                })  
+                })
+                setOpponentsShips(prev => {
+                  const newArray = [...prev];
+                  newArray[0]++;
+                  return newArray;
+                })
               } 
             }
           }
@@ -759,7 +855,8 @@ function App() {
     <div className="App" >
       {checkGameStart()}
       {opponentAI()}
-      {console.log(opponentsBoard)}
+      {checkGameEnded()}
+      {console.log(opponentesShips)}
       <div style = {{ display: 'flex'}}>
         <div> 
           <div>my board</div>
