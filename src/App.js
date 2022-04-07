@@ -583,10 +583,147 @@ function App() {
     for(let i = 0; i< 10; i++){
       var colArray = [];
       for(let j=0; j< 10 ; j++){
-
+        const handleHover = () =>{
+          if(opponentsBoard[i][j] === null){
+            setOpponentsBoard(prevBoard => {
+              const newBoard = [...prevBoard];
+              const newBoardRow = [...newBoard[i]];
+              newBoardRow[j] = "hovering";
+              newBoard[i] = newBoardRow;
+              return newBoard;
+            })   
+          }else{
+            if(opponentsBoard[i][j] === "placedCarrier"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "hoveringPlacedCarrier";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              }) 
+            }else if(opponentsBoard[i][j] === "placedBattleship"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "hoveringPlacedBattleship";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              }) 
+            }else if(opponentsBoard[i][j] === "placedCruiser"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "hoveringPlacedCruiser";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              }) 
+            }else if(opponentsBoard[i][j] === "placedDestroyer"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "hoveringPlacedDestroyer";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              }) 
+            }  
+          }
+             
+        }
+        const handleHoverLeft = () => {
+          if(opponentsBoard[i][j] === "hovering" ){
+            setOpponentsBoard(prevBoard => {
+              const newBoard = [...prevBoard];
+              const newBoardRow = [...newBoard[i]];
+              newBoardRow[j] = null;
+              newBoard[i] = newBoardRow;
+              return newBoard;
+            })   
+          }else{
+            if(opponentsBoard[i][j] === "hoveringPlacedCarrier"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "placedCarrier";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              })  
+            }else if(opponentsBoard[i][j] === "hoveringPlacedBattleship"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "placedBattleship";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              })  
+            }else if(opponentsBoard[i][j] === "hoveringPlacedCruiser"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "placedCruiser";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              })  
+            }else if(opponentsBoard[i][j] === "hoveringPlacedDestroyer"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "placedDestroyer";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              })  
+            } 
+          }
+        }
+        const handleOnClick = () => {
+          if(opponentsBoard[i][j] === "hovering"){
+            setOpponentsBoard(prevBoard => {
+              const newBoard = [...prevBoard];
+              const newBoardRow = [...newBoard[i]];
+              newBoardRow[j] = "missed";
+              newBoard[i] = newBoardRow;
+              return newBoard;
+            })
+          }else{
+            if(opponentsBoard[i][j] === "hoveringPlacedCarrier"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "clickCarrier";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              })  
+            }else if(opponentsBoard[i][j] === "hoveringPlacedBattleship"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "clickBattleship";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              })  
+            }else if(opponentsBoard[i][j] === "hoveringPlacedCruiser"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "clickCruiser";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              })  
+            }else if(opponentsBoard[i][j] === "hoveringPlacedDestroyer"){
+              setOpponentsBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                const newBoardRow = [...newBoard[i]];
+                newBoardRow[j] = "clickDestroyer";
+                newBoard[i] = newBoardRow;
+                return newBoard;
+              })  
+            } 
+          }
+        }
         colArray.push(
-          <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}}>
-            {opponentsBoard[i][j] === 'placedCarrier'||opponentsBoard[i][j] === 'placedBattleship'||opponentsBoard[i][j] === 'placedCruiser'||opponentsBoard[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null}
+          <div style = {{border : "1px solid", width: '3vw', height: '3vw', display: 'flex'}} onMouseEnter = {handleHover} onMouseLeave={handleHoverLeft} onClick = {handleOnClick}>
+            {/* {opponentsBoard[i][j] === 'placedCarrier'||opponentsBoard[i][j] === 'placedBattleship'||opponentsBoard[i][j] === 'placedCruiser'||opponentsBoard[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null} */}
+            {opponentsBoard[i][j]!== null && opponentsBoard[i][j].charAt(0) === 'h'|| opponentsBoard[i][j]!== null && opponentsBoard[i][j] === 'missed'? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgrey'}} /> : null}
+            {opponentsBoard[i][j]!== null && opponentsBoard[i][j].charAt(0) === 'c' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}}/> : null}
           </div>
         )
       }
