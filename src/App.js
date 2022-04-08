@@ -127,8 +127,16 @@ function App() {
     console.log("check game started")
   }
   const opponentAI = () => {
-    var i = 0, j=0
-    if(!myTurn){
+    if(!myTurn && gameStart){
+      var i = 0, j=0;
+      var validIJ = false;
+      while(!validIJ){
+        i = Math.floor(Math.random() * (10));
+        j = Math.floor(Math.random() * (10));
+        if(board[i][j] === null || board[i][j].charAt(0) === 'p'){
+          validIJ = true
+        }
+      }
       if(board[i][j] === "placedCarrier"){
         setBoard(prevBoard => {
           const newBoard = [...prevBoard];
@@ -181,7 +189,7 @@ function App() {
           newArray[0]++;
           return newArray;
         })
-      }else if(board[i][j] === "hovering" ){
+      }else if(board[i][j] === null){
         setBoard(prevBoard => {
           const newBoard = [...prevBoard];
           const newBoardRow = [...newBoard[i]];
@@ -192,6 +200,7 @@ function App() {
       }
       setMyTurn(true);
     }
+    
   }
   const checkGameEnded =()=>{
     if(myShips[0] === 2 && myShips[1] === 3 &&myShips[2] === 4 &&myShips[3] === 5 ){
@@ -199,6 +208,7 @@ function App() {
     }else if(opponentesShips[0] === 2 && opponentesShips[1] === 3 &&opponentesShips[2] === 4 &&opponentesShips[3] === 5){
       setGameEnd("You")
     }
+    
   }
 
   const renderMyGrid = () => {
@@ -647,11 +657,15 @@ function App() {
             {board[i][j] === 'hovering' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgrey'}} /> : null}
             {board[i][j] === 'out' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'red'}} /> : null}
             {board[i][j] === 'placedCarrier'||board[i][j] === 'placedBattleship'||board[i][j] === 'placedCruiser'||board[i][j] === 'placedDestroyer' ? <div style={{ width: '3vw', height: '3vw',backgroundColor:'black'}} /> : null}
-            {board[i][j]!== null && board[i][j].charAt(0) === 'c' ? 
+            {board[i][j]!== null && board[i][j].charAt(0) === 'c' && gameStart? 
             <div style={{ width: '3vw', height: '3vw',backgroundColor:'black',display:"flex", justifyContent:"center", alignItems: "center"}}>
               <div style={{ width: '80%', height: '80%', borderRadius:"50%",backgroundColor:"red", display:"flex", justifyContent:"center", alignItems: "center"}} >
                 <div style={{ width: '50%', height: '50%', borderRadius:"50%",backgroundColor:"orange"}} />
               </div>
+            </div> 
+            : null}
+            {board[i][j]!== null && board[i][j]=== 'missed' && gameStart? 
+            <div style={{ width: '3vw', height: '3vw',backgroundColor:'lightgrey'}}>
             </div> 
             : null}
           </div>
@@ -762,7 +776,7 @@ function App() {
           }
         }
         const handleOnClick = () => {
-          if(myTurn && gameEnd!==null){
+          if(myTurn && gameEnd==="" && gameStart){
             if(opponentsBoard[i][j] === "hovering" ){
               setOpponentsBoard(prevBoard => {
                 const newBoard = [...prevBoard];
@@ -826,6 +840,7 @@ function App() {
                 })
               } 
             }
+            setMyTurn(false)
           }
           
         }
@@ -855,15 +870,16 @@ function App() {
     <div className="App" >
       {checkGameStart()}
       {opponentAI()}
-      {checkGameEnded()}
-      {console.log(opponentesShips)}
+      {gameEnd === "" ? checkGameEnded() : null}
+      {console.log(board)}
       <div style = {{ display: 'flex'}}>
         <div> 
           <div>my board</div>
           <div>{renderMyGrid()}</div>
+          
           {
-            gameStart ? 
-            <div>Game Started!</div> : 
+            gameStart? 
+            null: 
             <div>
               <button onClick={handlePlaceCarrier} disabled={placeShips.carrier}> carrier </button>
               <button onClick={handlePlaceBattleship} disabled={placeShips.battleship}> battleship </button>
@@ -875,13 +891,18 @@ function App() {
           
           
         </div>
-        <div style = {{  marginLeft : "20vw"}}>
+        
+        <div style = {{  paddingLeft : "20vw"}}>
           <div>opponents board</div>
           <div >{renderOpponentsGrid()}</div> 
         </div>
         
       </div>
-      
+        {
+          gameEnd !== "" ?
+          <div style = {{  marginRight:"20vw"}}>The winner is {gameEnd}</div> :
+          null
+        }
     </div>
   );
 }
