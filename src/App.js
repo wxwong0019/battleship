@@ -76,6 +76,8 @@ function App() {
   const [opponentesShips, setOpponentsShips] = useState([0,0,0,0]);
   const [gameEnd, setGameEnd] = useState("");
   const [myTurn, setMyTurn] = useState(true);
+  const [cpuHit, setCpuHit] = useState([]);
+
   const handleChangeDirection = () =>{
     direction === "vertical"? setDirection("horizontal"):setDirection("vertical");
   }
@@ -130,6 +132,43 @@ function App() {
     if(!myTurn && gameStart){
       var i = 0, j=0;
       var validIJ = false;
+      if(cpuHit.length === 3){
+        if(cpuHit[2] === 0){
+          i=cpuHit[0]+1;
+          j=cpuHit[1];
+          if(board[i][j] === null || board[i][j].charAt(0) === 'p'){
+            setCpuHit([cpuHit[0], cpuHit[1], 1]);
+            validIJ = true;
+          }else{
+            i=cpuHit[0]-11;
+            j=cpuHit[1];
+            if(board[i][j] === null || board[i][j].charAt(0) === 'p'){
+              setCpuHit([cpuHit[0], cpuHit[1], 2]);
+              validIJ = true;
+            }
+          }
+          
+        }else if(cpuHit[2] === 1){
+          i=cpuHit[0]-1;
+          j=cpuHit[1];
+          if(board[i][j] === null || board[i][j].charAt(0) === 'p'){
+            setCpuHit([cpuHit[0], cpuHit[1], 1]);
+            validIJ = true;
+          }
+        }
+        i=cpuHit[0]+1;
+        j=cpuHit[1];
+        if(board[i][j] === null || board[i][j].charAt(0) === 'p') validIJ = true;
+        i=cpuHit[0]-1;
+        j=cpuHit[1];
+        if(board[i][j] === null || board[i][j].charAt(0) === 'p') validIJ = true;
+        i=cpuHit[0];
+        j=cpuHit[1]+1;
+        if(board[i][j] === null || board[i][j].charAt(0) === 'p') validIJ = true;
+        i=cpuHit[0];
+        j=cpuHit[1]-1;
+        if(board[i][j] === null || board[i][j].charAt(0) === 'p') validIJ = true;
+      }
       while(!validIJ){
         i = Math.floor(Math.random() * (10));
         j = Math.floor(Math.random() * (10));
