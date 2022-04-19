@@ -146,8 +146,7 @@ function App() {
               setCpuHit([cpuHit[0], cpuHit[1], 2]);
               validIJ = true;
             }
-          }
-          
+          }         
         }else if(cpuHit[2] === 1){
           i=cpuHit[0]-1;
           j=cpuHit[1];
