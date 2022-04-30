@@ -132,7 +132,7 @@ function App() {
     if(!myTurn && gameStart){
       var i = 0, j=0;
       var validIJ = false;
-      if(cpuHit.length === 3){
+      if(cpuHit.length !== 0){
         if(cpuHit[2] === 0){
           i=cpuHit[0]+1;
           j=cpuHit[1];
@@ -188,6 +188,9 @@ function App() {
           newArray[3]++;
           return newArray;
         })
+        setCpuHit(prev => {
+          const newHit = [...prev];
+        })
       }else if(board[i][j] === "placedBattleship"){
         setBoard(prevBoard => {
           const newBoard = [...prevBoard];
@@ -235,6 +238,23 @@ function App() {
           newBoard[i] = newBoardRow;
           return newBoard;
         })
+      }
+      if(board[i][j].charAt(0) === 'p'){
+        if(cpuHit.length > 0){
+          setCpuHit(prev => {
+            const newArr = [...prev];
+            if(newArr[newArr.length-1]===0){
+              newArr.push([[i,j],0])
+            }else if(newArr[newArr.length-1]===1){
+              newArr.push([[i,j],1])
+            }else if(newArr[newArr.length-1]===2){
+              newArr.push([[i,j],2])
+            }else if(newArr[newArr.length-1]===3){
+              newArr.push([[i,j],3])
+            }
+          })
+        }
+        
       }
       setMyTurn(true);
     }
